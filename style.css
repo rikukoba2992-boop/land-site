@@ -69,6 +69,24 @@ body{
     display:none;
 }
 
+@media(max-width:768px){
+    .hero-desktop{
+        display:none !important;
+    }
+
+    .hero-mobile{
+        display:block !important;
+    }
+}
+
+.hero-desktop{
+    display:block;
+}
+
+.hero-mobile{
+    display:none;
+}
+
 @keyframes heroReveal{
     from{
         opacity:0;
