@@ -163,9 +163,9 @@ body{
 }
 
 #links a{
-    display:grid;
-    grid-template-columns:60px 1fr;
+    display:flex;
     align-items:center;
+    gap:20px;
 
     width:420px;
 
