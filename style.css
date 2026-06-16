@@ -183,7 +183,7 @@ body{
     align-items:center;
 
     padding-top:90px;
-    padding-bottom:120px;
+    padding-bottom:140px;
 
     overflow-y:auto;
 }
@@ -257,13 +257,10 @@ body{
 /* MOBILE */
 
 @media(max-width:768px){
-    #message{
-        font-size:2rem;
-        padding:20px;
-        letter-spacing:4px;
-
-        .hero-desktop{
-    display:none;
+    #links{
+        padding-top:70px;
+        padding-bottom:160px;
+    }
 }
 
 .hero-mobile{
