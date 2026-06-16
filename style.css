@@ -290,3 +290,22 @@ body{
 
     text-align:center;
 }
+
+.section-title.bonus{
+    animation: bonusBlink 1.6s infinite;
+}
+
+@keyframes bonusBlink{
+    0%{
+        opacity:1;
+        text-shadow:0 0 4px rgba(174,30,44,.2);
+    }
+    50%{
+        opacity:.35;
+        text-shadow:0 0 14px rgba(174,30,44,.9);
+    }
+    100%{
+        opacity:1;
+        text-shadow:0 0 4px rgba(174,30,44,.2);
+    }
+}
