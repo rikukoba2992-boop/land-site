@@ -237,7 +237,8 @@ body{
 }
 
 .section-title{
-    width:420px;
+    width:100%;
+    max-width:420px;
 
     margin-top:40px;
     margin-bottom:10px;
