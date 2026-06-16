@@ -61,6 +61,14 @@ body{
     animation:heroReveal 2s ease forwards;
 }
 
+.hero-desktop{
+    display:block;
+}
+
+.hero-mobile{
+    display:none;
+}
+
 @keyframes heroReveal{
     from{
         opacity:0;
@@ -208,6 +216,14 @@ body{
         font-size:2rem;
         padding:20px;
         letter-spacing:4px;
+
+        .hero-desktop{
+    display:none;
+}
+
+.hero-mobile{
+    display:block;
+}
     }
 
     #links h1{
