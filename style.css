@@ -235,3 +235,17 @@ body{
     background-size:cover;
     mix-blend-mode:screen;
 }
+
+.section-title{
+    width:420px;
+
+    margin-top:40px;
+    margin-bottom:10px;
+
+    color:#ae1e2c;
+
+    font-size:0.8rem;
+    letter-spacing:6px;
+
+    text-transform:uppercase;
+}
