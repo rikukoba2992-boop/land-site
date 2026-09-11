@@ -24,6 +24,31 @@
         <div class="pt-beam"></div>
     </div>
 
+    <!-- Instagram promo modal — shown once per session on first visit -->
+    <div class="promo-modal" id="promoModal" aria-hidden="true">
+        <div class="promo-modal__overlay" id="promoModalOverlay"></div>
+        <div class="promo-modal__panel" id="promoModalPanel" role="dialog" aria-modal="true" aria-labelledby="promoModalTitle" tabindex="-1">
+            <button type="button" class="promo-modal__close" id="promoModalClose" aria-label="Close">×</button>
+
+            <h2 class="promo-modal__title" id="promoModalTitle">MORE WORKS<br>ON INSTAGRAM</h2>
+            <p class="promo-modal__sub">Explore more projects and visual experiments.</p>
+
+            <div class="promo-modal__grid">
+                <div class="promo-modal__col">
+                    <p class="promo-modal__name">LAND</p>
+                    <p class="promo-modal__cat">AI ART / AI VISUAL / GENERATIVE WORKS</p>
+                    <a class="promo-modal__link" href="https://www.instagram.com/land_2992?stkn=MWVzdTQyMno1OGhqcQ%3D%3D&amp;utm_source=qr" target="_blank" rel="noopener noreferrer" data-cursor-text="ENTER"><img class="promo-modal__link-icon" src="./images/instagram.png" alt="" loading="lazy">VIEW INSTAGRAM <span aria-hidden="true">↗</span></a>
+                </div>
+
+                <div class="promo-modal__col promo-modal__col--riku">
+                    <p class="promo-modal__name">KOBAYASHI RIKU</p>
+                    <p class="promo-modal__cat promo-modal__cat--riku">CG / MOTION / VIDEO WORKS</p>
+                    <a class="promo-modal__link promo-modal__link--riku" href="https://www.instagram.com/kobariku_2992?stkn=Zjg1YzlvNGkzd21m&amp;utm_source=qr" target="_blank" rel="noopener noreferrer" data-cursor-text="ENTER"><img class="promo-modal__link-icon" src="./images/instagram.png" alt="" loading="lazy">VIEW INSTAGRAM <span aria-hidden="true">↗</span></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="hud hud--tl" aria-hidden="true">LAND / SYS</div>
     <div class="hud hud--tr" aria-hidden="true">SENDAI, JP — 38.26N 140.87E</div>
     <div class="hud hud--bl" aria-hidden="true">EST. 2026</div>
@@ -273,6 +298,27 @@
                     </div>
                 </article>
 
+                <article class="work work--land" data-cursor-text="VIEW">
+                    <div class="work__media" data-media="land-09">
+                        <div class="work__bg-panel work__bg-panel--red"></div>
+                        <div class="work__bg-panel work__bg-panel--blue"></div>
+                        <div class="work__media-inner work__media--youtube" data-youtube-id="oIZgPFNVmNA">
+                            <a class="work__yt-link" href="https://youtu.be/oIZgPFNVmNA" target="_blank" rel="noopener" aria-label="Watch MUSUBI - AI Fashion Film on YouTube" data-cursor-text="YOUTUBE">
+                                <img class="work__thumb" src="https://i.ytimg.com/vi/oIZgPFNVmNA/hqdefault.jpg" alt="" loading="lazy">
+                                <span class="work__play" aria-hidden="true">▶</span>
+                                <span class="work__yt-label">WATCH ON YOUTUBE</span>
+                            </a>
+                        </div>
+                        <span class="work__media-label">09</span>
+                    </div>
+                    <div class="work__caption">
+                        <p class="caption__row caption__row--title" data-text="MUSUBI - AI Fashion Film"><span>TITLE</span>MUSUBI - AI Fashion Film</p>
+                        <p class="caption__row"><span>FIELD</span>Movie</p>
+                        <p class="caption__row"><span>PROCESS</span>GENERATIVE AI / DIRECTION / EDITING / SOUND DESIGN</p>
+                        <p class="caption__row"><span>YEAR</span>2026</p>
+                    </div>
+                </article>
+
             </div>
         </section>
 
@@ -341,9 +387,29 @@
                     </div>
                     <div class="work__caption">
                         <p class="caption__row caption__row--riku"><span>TITLE</span>LAND Main Visual</p>
-                        <p class="caption__row caption__row--riku"><span>FIELD</span>TouchDesigner / Projection / Motion Experiment</p>
-                        <p class="caption__row caption__row--riku"><span>PROCESS</span>3DCG / TOUCHDESIGNER / PROJECTION / COMPOSITING</p>
+                        <p class="caption__row caption__row--riku"><span>FIELD</span>Projection / Visual</p>
+                        <p class="caption__row caption__row--riku"><span>PROCESS</span>PROJECTION / COMPOSITING</p>
                         <p class="caption__row caption__row--riku"><span>YEAR</span>2026</p>
+                    </div>
+                </article>
+
+                <article class="work work--riku" data-cursor-text="VIEW">
+                    <div class="work__media" data-media="riku-04">
+                        <div class="work__beam" aria-hidden="true"></div>
+                        <div class="work__media-inner work__media--youtube" data-youtube-id="GQ8neUK025Q">
+                            <a class="work__yt-link" href="https://youtu.be/GQ8neUK025Q" target="_blank" rel="noopener" aria-label="Watch マグラジ！ ~ From YUYU to YOU music ~ on YouTube" data-cursor-text="YOUTUBE">
+                                <img class="work__thumb" src="https://i.ytimg.com/vi/GQ8neUK025Q/hqdefault.jpg" alt="" loading="lazy">
+                                <span class="work__play" aria-hidden="true">▶</span>
+                                <span class="work__yt-label">WATCH ON YOUTUBE</span>
+                            </a>
+                        </div>
+                        <span class="work__media-label">03</span>
+                    </div>
+                    <div class="work__caption">
+                        <p class="caption__row caption__row--riku"><span>TITLE</span>マグラジ！ ~ From YUYU to YOU music ~</p>
+                        <p class="caption__row caption__row--riku"><span>FIELD</span>internet radio / Public Relations</p>
+                        <p class="caption__row caption__row--riku"><span>PROCESS</span>DIRECTION / PLANNING / SCRIPT / HOST / EDITING</p>
+                        <p class="caption__row caption__row--riku"><span>YEAR</span>2025</p>
                     </div>
                 </article>
 

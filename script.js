@@ -57,6 +57,8 @@
         if(!reduceMotion){
             hero.classList.add("is-igniting");
         }
+
+        setTimeout(openPromoModal, reduceMotion ? 200 : 900);
     }
 
     const introTimer = setTimeout(enterSite, reduceMotion ? 400 : 1700);
@@ -361,5 +363,87 @@
             }, kind === "is-land" ? 950 : 1400);
         });
     });
+
+    /* ---------------------------------------------------------
+       PROMO MODAL — Instagram cross-promotion.
+       Shown once per page load, right after the opening sequence
+       hands off to the hero. Closable via the × button, an
+       overlay click, or Esc; never blocks initial page render.
+    --------------------------------------------------------- */
+    const promoModal = document.getElementById("promoModal");
+    const promoModalOverlay = document.getElementById("promoModalOverlay");
+    const promoModalPanel = document.getElementById("promoModalPanel");
+    const promoModalClose = document.getElementById("promoModalClose");
+
+    let promoModalScrollY = 0;
+    let promoModalLastFocused = null;
+
+    function lockBodyScroll(){
+        promoModalScrollY = window.scrollY;
+        document.body.style.position = "fixed";
+        document.body.style.top = `-${promoModalScrollY}px`;
+        document.body.style.width = "100%";
+    }
+
+    function unlockBodyScroll(){
+        document.body.style.position = "";
+        document.body.style.top = "";
+        document.body.style.width = "";
+        window.scrollTo(0, promoModalScrollY);
+    }
+
+    function getPromoModalFocusable(){
+        return [...promoModal.querySelectorAll("a, button")].filter(
+            el => el.offsetParent !== null
+        );
+    }
+
+    function handlePromoModalKeydown(e){
+        if(e.key === "Escape"){
+            closePromoModal();
+            return;
+        }
+
+        if(e.key !== "Tab") return;
+
+        const focusable = getPromoModalFocusable();
+        if(focusable.length === 0) return;
+
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+
+        if(e.shiftKey && document.activeElement === first){
+            e.preventDefault();
+            last.focus();
+        }else if(!e.shiftKey && document.activeElement === last){
+            e.preventDefault();
+            first.focus();
+        }
+    }
+
+    function openPromoModal(){
+        promoModalLastFocused = document.activeElement;
+
+        promoModal.classList.add("is-open");
+        promoModal.setAttribute("aria-hidden", "false");
+        lockBodyScroll();
+        document.addEventListener("keydown", handlePromoModalKeydown);
+
+        promoModalPanel.focus();
+    }
+
+    function closePromoModal(){
+        promoModal.classList.remove("is-open");
+        promoModal.setAttribute("aria-hidden", "true");
+        unlockBodyScroll();
+        document.removeEventListener("keydown", handlePromoModalKeydown);
+
+        if(promoModalLastFocused && document.contains(promoModalLastFocused)){
+            promoModalLastFocused.focus();
+        }
+    }
+
+    promoModalClose.addEventListener("click", closePromoModal);
+    promoModalOverlay.addEventListener("click", closePromoModal);
 
 })();

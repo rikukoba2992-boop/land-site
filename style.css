@@ -269,6 +269,200 @@ ul,ol{ list-style:none; }
 }
 
 /* =========================================================
+   PROMO MODAL — Instagram cross-promotion, once per session
+   ========================================================= */
+
+.promo-modal{
+    position:fixed;
+    inset:0;
+    z-index:990;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:var(--gutter);
+    opacity:0;
+    visibility:hidden;
+    pointer-events:none;
+    transition:opacity var(--dur-med) var(--ease),visibility var(--dur-med);
+}
+
+.promo-modal.is-open{
+    opacity:1;
+    visibility:visible;
+    pointer-events:auto;
+}
+
+.promo-modal__overlay{
+    position:absolute;
+    inset:0;
+    background:rgba(5,5,5,.8);
+    cursor:none;
+}
+
+.promo-modal__panel{
+    position:relative;
+    z-index:1;
+    width:min(680px,100%);
+    max-height:85dvh;
+    overflow-y:auto;
+    background:var(--black-2);
+    border:1px solid rgba(237,237,234,.15);
+    padding:clamp(32px,6vw,56px) clamp(24px,5vw,56px);
+    opacity:0;
+    transform:translateY(10px);
+    transition:opacity var(--dur-med) var(--ease),transform var(--dur-med) var(--ease);
+}
+
+.promo-modal.is-open .promo-modal__panel{
+    opacity:1;
+    transform:translateY(0);
+}
+
+/* the panel itself is only a script-focused dialog container
+   (tabindex="-1"), not a real control — suppress its outline
+   unless the browser judges it genuinely keyboard-navigated */
+.promo-modal__panel:focus:not(:focus-visible){
+    outline:none;
+}
+
+.promo-modal__close{
+    position:absolute;
+    top:clamp(8px,2vw,16px);
+    right:clamp(8px,2vw,16px);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    min-width:44px;
+    min-height:44px;
+    font-size:22px;
+    line-height:1;
+    color:var(--silver);
+    cursor:none;
+    transition:color var(--dur-fast) var(--ease),transform var(--dur-fast) var(--ease);
+}
+
+.promo-modal__close:hover{
+    color:var(--off-white);
+    transform:rotate(90deg);
+}
+
+.promo-modal__title{
+    font-size:clamp(1.8rem,5vw,3.2rem);
+    font-weight:800;
+    line-height:1.08;
+    margin-bottom:16px;
+}
+
+.promo-modal__sub{
+    font-size:13px;
+    color:var(--silver);
+    max-width:42ch;
+    margin-bottom:clamp(28px,5vw,44px);
+}
+
+.promo-modal__grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:clamp(24px,5vw,40px);
+}
+
+.promo-modal__col{
+    display:flex;
+    flex-direction:column;
+}
+
+.promo-modal__col:first-child{
+    border-right:1px solid rgba(237,237,234,.15);
+    padding-right:clamp(24px,5vw,40px);
+}
+
+.promo-modal__name{
+    font-size:clamp(1.1rem,2.6vw,1.5rem);
+    font-weight:800;
+    letter-spacing:1px;
+    margin-bottom:8px;
+}
+
+.promo-modal__cat{
+    font-size:10px;
+    letter-spacing:2px;
+    color:var(--red);
+}
+
+.promo-modal__cat--riku{
+    color:#5c7bd6;
+}
+
+.promo-modal__link{
+    /* pushes the link to the bottom of its column so both columns'
+       links line up on the same row even if one category label
+       wraps onto more lines than the other */
+    margin-top:auto;
+    padding-top:16px;
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    align-self:flex-start;
+    font-size:11px;
+    letter-spacing:2px;
+    color:var(--off-white);
+    padding-bottom:10px;
+    min-height:44px;
+    cursor:none;
+    transition:color var(--dur-fast) var(--ease);
+}
+
+.promo-modal__link-icon{
+    width:16px;
+    height:16px;
+    object-fit:contain;
+}
+
+.promo-modal__link span{
+    display:inline-block;
+    transition:transform var(--dur-fast) var(--ease);
+}
+
+.promo-modal__link:hover{
+    color:var(--red);
+}
+
+.promo-modal__link--riku:hover{
+    color:#5c7bd6;
+}
+
+.promo-modal__link:hover span{
+    transform:translate(3px,-3px);
+}
+
+@media(max-width:700px){
+    .promo-modal__grid{
+        grid-template-columns:1fr;
+        gap:24px;
+    }
+    .promo-modal__col:first-child{
+        border-right:none;
+        border-bottom:1px solid rgba(237,237,234,.15);
+        padding-right:0;
+        padding-bottom:24px;
+    }
+}
+
+@media(hover:none),(pointer:coarse){
+    .promo-modal__overlay,
+    .promo-modal__close,
+    .promo-modal__link{
+        cursor:pointer;
+    }
+}
+
+.promo-modal__close:focus-visible,
+.promo-modal__link:focus-visible{
+    outline:1px solid var(--red);
+    outline-offset:3px;
+}
+
+/* =========================================================
    OPENING
    ========================================================= */
 
