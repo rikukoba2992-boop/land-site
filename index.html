@@ -2,497 +2,329 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LAND — KOBAYASHI RIKU</title>
-    <meta name="description" content="LAND is a creative label exploring AI-generated film and visual experiments. KOBAYASHI RIKU works across 3DCG, motion, projection and installation.">
-    <link rel="stylesheet" href="./style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>KOBAYASHI RIKU × LAND</title>
+    <meta name="description" content="Portfolio of KOBAYASHI RIKU — CG, film and installation — and LAND — generative AI film and visual art.">
+    <meta name="theme-color" content="#0a0a0a">
+    <link rel="canonical" href="https://land-site-zeta.vercel.app/">
+    <!-- no favicon artwork yet: an empty icon stops the /favicon.ico 404 -->
+    <link rel="icon" href="data:,">
+
+    <!-- share card (absolute URLs — social crawlers do not resolve relative paths) -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://land-site-zeta.vercel.app/">
+    <meta property="og:site_name" content="KOBAYASHI RIKU × LAND">
+    <meta property="og:title" content="KOBAYASHI RIKU × LAND">
+    <meta property="og:description" content="CG / FILM / INSTALLATION — GENERATIVE AI / FILM / VISUAL ART">
+    <meta property="og:image" content="https://land-site-zeta.vercel.app/media/og-image.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="小林陸 brush logo on white beside the LAND brush logo on black">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="KOBAYASHI RIKU × LAND">
+    <meta name="twitter:description" content="CG / FILM / INSTALLATION — GENERATIVE AI / FILM / VISUAL ART">
+    <meta name="twitter:image" content="https://land-site-zeta.vercel.app/media/og-image.jpg">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500&display=swap" rel="stylesheet">
+
+    <!-- Entry order (set before first paint):
+         /              → LAND first   (existing LAND links / QR codes)
+         /?start=riku   → KOBAYASHI RIKU first (new QR code)
+         js/start.js reorders the page for the LAND-first order. -->
+    <script>
+        (function(){
+            var s = null;
+            try{ s = new URLSearchParams(location.search).get("start"); }catch(e){}
+            document.documentElement.setAttribute("data-start", s === "riku" ? "riku" : "land");
+        })();
+    </script>
+
+    <link rel="preload" as="image" href="./media/showreel/showreel-poster.webp" type="image/webp">
+    <link rel="stylesheet" href="./css/main.css">
 </head>
 <body>
 
-    <!-- system chrome -->
-    <div class="cursor" id="cursor" aria-hidden="true">
-        <span class="cursor__text" id="cursorText"></span>
-    </div>
-    <div class="progress" aria-hidden="true"><div class="progress__bar" id="progressBar"></div></div>
-    <div class="noise" aria-hidden="true"></div>
-    <div class="scanlines" aria-hidden="true"></div>
+    <a class="skip-link" href="#riku-works">Skip to works</a>
+    <h1 class="u-visually-hidden">KOBAYASHI RIKU × LAND — portfolio</h1>
 
-    <!-- practice entry transition overlay (LAND = color panels / RIKU = light) -->
-    <div class="practice-transition" id="practiceTransition" aria-hidden="true">
-        <div class="pt-panel pt-panel--red"></div>
-        <div class="pt-panel pt-panel--blue"></div>
-        <div class="pt-beam"></div>
-    </div>
+    <!-- ================= HEADER ================= -->
+    <header class="site-header" id="siteHeader" data-tone="light">
+        <a class="site-header__mark" href="#top" aria-label="KOBAYASHI RIKU × LAND — back to top">
+            KOBAYASHI RIKU <span aria-hidden="true">×</span> LAND
+        </a>
+        <nav class="site-nav" aria-label="Primary">
+            <a href="#top" data-nav="top">TOP</a>
+            <a href="#riku" data-nav="riku">RIKU</a>
+            <a href="#land" data-nav="land">LAND</a>
+            <a href="#about" data-nav="about">ABOUT</a>
+            <a href="#contact" data-nav="contact">CONTACT</a>
+        </nav>
+    </header>
 
-    <!-- Instagram promo modal — shown once per session on first visit -->
-    <div class="promo-modal" id="promoModal" aria-hidden="true">
-        <div class="promo-modal__overlay" id="promoModalOverlay"></div>
-        <div class="promo-modal__panel" id="promoModalPanel" role="dialog" aria-modal="true" aria-labelledby="promoModalTitle" tabindex="-1">
-            <button type="button" class="promo-modal__close" id="promoModalClose" aria-label="Close">×</button>
+    <main>
 
-            <h2 class="promo-modal__title" id="promoModalTitle">MORE WORKS<br>ON INSTAGRAM</h2>
-            <p class="promo-modal__sub">Explore more projects and visual experiments.</p>
+        <!-- =========================================================
+             01 / SHOWREEL  →  02 / KOBAYASHI RIKU IDENTITY
+             One scroll track with a sticky stage:
+             reel fades out into white, then the brush logo is written in.
+             ========================================================= -->
+        <section class="intro" id="top" aria-label="Showreel and KOBAYASHI RIKU">
+            <div class="intro__stage">
 
-            <div class="promo-modal__grid">
-                <div class="promo-modal__col">
-                    <p class="promo-modal__name">LAND</p>
-                    <p class="promo-modal__cat">AI ART / AI VISUAL / GENERATIVE WORKS</p>
-                    <a class="promo-modal__link" href="https://www.instagram.com/land_2992?stkn=MWVzdTQyMno1OGhqcQ%3D%3D&amp;utm_source=qr" target="_blank" rel="noopener noreferrer" data-cursor-text="ENTER"><img class="promo-modal__link-icon" src="./images/instagram.png" alt="" loading="lazy">VIEW INSTAGRAM <span aria-hidden="true">↗</span></a>
-                </div>
+                <div class="reel" id="reel">
+                    <video class="reel__video" id="reelVideo"
+                        muted loop playsinline autoplay preload="auto"
+                        poster="./media/showreel/showreel-poster.webp"
+                        data-src-desktop="./media/showreel/showreel-1080.mp4"
+                        data-src-mobile="./media/showreel/showreel-720.mp4"
+                        aria-label="Showreel — works by KOBAYASHI RIKU and LAND">
+                    </video>
+                    <div class="reel__shade" aria-hidden="true"></div>
 
-                <div class="promo-modal__col promo-modal__col--riku">
-                    <p class="promo-modal__name">KOBAYASHI RIKU</p>
-                    <p class="promo-modal__cat promo-modal__cat--riku">CG / MOTION / VIDEO WORKS</p>
-                    <a class="promo-modal__link promo-modal__link--riku" href="https://www.instagram.com/kobariku_2992?stkn=Zjg1YzlvNGkzd21m&amp;utm_source=qr" target="_blank" rel="noopener noreferrer" data-cursor-text="ENTER"><img class="promo-modal__link-icon" src="./images/instagram.png" alt="" loading="lazy">VIEW INSTAGRAM <span aria-hidden="true">↗</span></a>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="hud hud--tl" aria-hidden="true">LAND / SYS</div>
-    <div class="hud hud--bl" aria-hidden="true">EST. 2026</div>
-    <div class="hud hud--br" aria-hidden="true"><span id="hudClock">00:00:00</span></div>
-
-    <!-- ================= OPENING ================= -->
-    <section id="opening" class="opening">
-        <div class="opening__inner">
-            <p class="opening__line">INITIALIZING LAND</p>
-            <p class="opening__line opening__line--dim">VISUAL SYSTEM / 001</p>
-        </div>
-        <button id="skipIntro" class="skip">SKIP</button>
-    </section>
-
-    <main id="main" class="main" aria-hidden="true">
-
-        <!-- ================= HERO ================= -->
-        <section id="hero" class="hero">
-            <div class="hero__beam" id="heroBeam" aria-hidden="true"></div>
-            <div class="hero__flicker" id="heroFlicker" aria-hidden="true"></div>
-
-            <div class="hero__visual" id="heroVisual">
-                <picture>
-                    <source media="(max-width:768px)" srcset="./images/land-wallpaper-mobile.png">
-                    <img src="./images/land-wallpaper.png" alt="LAND main visual" id="heroImg">
-                </picture>
-            </div>
-            <div class="hero__scrim"></div>
-
-            <div class="hero__frame">
-                <span class="hero__tag hero__tag--tl">KOBAYASHI RIKU</span>
-                <span class="hero__tag hero__tag--tr">SENDAI / JAPAN</span>
-                <span class="hero__tag hero__tag--bl">ALTER EGO</span>
-                <div class="hero__tag hero__tag--br hero__social">
-                    <a href="https://instagram.com/land_2992" target="_blank" rel="noopener" aria-label="Instagram" data-cursor-text="ENTER"><img src="./images/instagram.png" alt=""></a>
-                    <a href="https://x.com/land_2992" target="_blank" rel="noopener" aria-label="X" data-cursor-text="ENTER"><img src="./images/x.png" alt=""></a>
-                    <a href="https://youtube.com/@land2992" target="_blank" rel="noopener" aria-label="YouTube" data-cursor-text="ENTER"><img src="./images/youtube.png" alt=""></a>
-                </div>
-                <span class="hero__tag hero__tag--est">EST. 2026</span>
-            </div>
-
-            <div class="hero__title-group" id="heroTitle">
-                <h1 class="hero__title">
-                    <span data-dir="left">L</span><span data-dir="up">A</span><span data-dir="down">N</span><span data-dir="right">D</span>
-                </h1>
-                <p class="hero__title-mirror" aria-hidden="true">KOBAYASHI RIKU</p>
-            </div>
-
-            <p class="hero__copy">
-                LAND IS NOT A PLACE.<br>
-                IT IS A STATE BETWEEN<br>
-                IMAGE, SOUND AND SPACE.
-            </p>
-
-            <div class="hero__scroll">
-                <span>SCROLL</span>
-                <span class="hero__scroll-line"></span>
-            </div>
-        </section>
-
-        <!-- ================= TWO PRACTICES ================= -->
-        <section id="practices" class="practices reveal">
-            <p class="section-index">02 / TWO PRACTICES</p>
-
-            <div class="practices__grid">
-                <a href="#land-works" class="practice practice--land" data-target="land-works" data-transition="land" data-cursor-text="ENTER">
-                    <span class="practice__num">01</span>
-                    <h2 class="practice__title mask-heading">LAND</h2>
-                    <p class="practice__cat">AI FILM &amp; VISUAL EXPERIMENTS</p>
-                    <p class="practice__desc">A creative label exploring AI-generated film, visual direction and speculative imagery.</p>
-                    <span class="practice__enter">ENTER →</span>
-                </a>
-
-                <a href="#riku-works" class="practice practice--riku" data-target="riku-works" data-transition="riku" data-cursor-text="ENTER">
-                    <span class="practice__num">02</span>
-                    <h2 class="practice__title mask-heading">KOBAYASHI RIKU</h2>
-                    <p class="practice__cat">CG / MOTION / INSTALLATION</p>
-                    <p class="practice__desc">A visual artist working across 3DCG, motion, projection and spatial experiences.</p>
-                    <span class="practice__enter">ENTER →</span>
-                </a>
-            </div>
-        </section>
-
-        <!-- ================= LAND WORKS ================= -->
-        <section id="land-works" class="works works--land">
-            <p class="section-index">03 / LAND WORKS</p>
-            <h2 class="works__heading mask-heading">LAND</h2>
-            <p class="works__sub">AI FILM &amp; VISUAL EXPERIMENTS</p>
-
-            <div class="works__list">
-
-                <article class="work work--land" data-cursor-text="VIEW">
-                    <div class="work__media" data-media="land-01">
-                        <div class="work__bg-panel work__bg-panel--red"></div>
-                        <div class="work__bg-panel work__bg-panel--blue"></div>
-                        <div class="work__media-inner work__media--youtube" data-youtube-id="bprNqIEZ3tY">
-                            <a class="work__yt-link" href="https://youtu.be/bprNqIEZ3tY" target="_blank" rel="noopener" aria-label="Watch JAUNT — THE WORLD'S SMALLEST HEADLINER on YouTube" data-cursor-text="YOUTUBE">
-                                <img class="work__thumb" src="https://i.ytimg.com/vi/bprNqIEZ3tY/hqdefault.jpg" alt="" loading="lazy">
-                                <span class="work__play" aria-hidden="true">▶</span>
-                                <span class="work__yt-label">WATCH ON YOUTUBE</span>
-                            </a>
-                        </div>
-                        <span class="work__media-label">01</span>
+                    <div class="reel__ui">
+                        <p class="reel__label">SHOWREEL</p>
+                        <button class="reel__toggle" id="reelToggle" type="button" aria-pressed="false">
+                            <span class="reel__toggle-text">PAUSE</span>
+                        </button>
                     </div>
-                    <div class="work__caption">
-                        <p class="caption__row caption__row--title" data-text="JAUNT — THE WORLD'S SMALLEST HEADLINER"><span>TITLE</span>JAUNT — THE WORLD'S SMALLEST HEADLINER</p>
-                        <p class="caption__row"><span>FIELD</span>AI Film / Spec Commercial / Creative Direction</p>
-                        <p class="caption__row"><span>PROCESS</span>GENERATIVE AI / DIRECTION / EDITING / SOUND DESIGN</p>
-                        <p class="caption__row"><span>YEAR</span>2026</p>
-                    </div>
-                </article>
 
-                <article class="work work--land" data-cursor-text="VIEW">
-                    <div class="work__media" data-media="land-02">
-                        <div class="work__bg-panel work__bg-panel--red"></div>
-                        <div class="work__bg-panel work__bg-panel--blue"></div>
-                        <div class="work__media-inner work__media--image">
-                            <img src="./images/works/land-02-sumika-artwork.png" alt="透明 - sumika Artwork" loading="lazy">
-                        </div>
-                        <span class="work__media-label">02</span>
-                    </div>
-                    <div class="work__caption">
-                        <p class="caption__row caption__row--title" data-text="透明 - sumika Artwork"><span>TITLE</span>透明 - sumika Artwork</p>
-                        <p class="caption__row"><span>FIELD</span>Music Artwork / Illustration</p>
-                        <p class="caption__row"><span>PROCESS</span>AI GENERATIVE ART / ART DIRECTION</p>
-                        <p class="caption__row"><span>YEAR</span>2026</p>
-                    </div>
-                </article>
-
-                <article class="work work--land" data-cursor-text="VIEW">
-                    <div class="work__media" data-media="land-03">
-                        <div class="work__bg-panel work__bg-panel--red"></div>
-                        <div class="work__bg-panel work__bg-panel--blue"></div>
-                        <div class="work__media-inner work__media--image">
-                            <img src="./images/works/land-03-superbeaver-artwork.png" alt="ひとつ - SUPER BEAVER Artwork" loading="lazy">
-                        </div>
-                        <span class="work__media-label">03</span>
-                    </div>
-                    <div class="work__caption">
-                        <p class="caption__row caption__row--title" data-text="ひとつ - SUPER BEAVER Artwork"><span>TITLE</span>ひとつ - SUPER BEAVER Artwork</p>
-                        <p class="caption__row"><span>FIELD</span>Music Artwork / Illustration</p>
-                        <p class="caption__row"><span>PROCESS</span>AI GENERATIVE ART / ART DIRECTION</p>
-                        <p class="caption__row"><span>YEAR</span>2026</p>
-                    </div>
-                </article>
-
-                <article class="work work--land" data-cursor-text="VIEW">
-                    <div class="work__media" data-media="land-04">
-                        <div class="work__bg-panel work__bg-panel--red"></div>
-                        <div class="work__bg-panel work__bg-panel--blue"></div>
-                        <div class="work__media-inner work__media--youtube" data-youtube-id="iXFKUTpmspw">
-                            <a class="work__yt-link" href="https://youtu.be/iXFKUTpmspw" target="_blank" rel="noopener" aria-label="Watch PIZZA &amp; WINE Sisi brandmovie on YouTube" data-cursor-text="YOUTUBE">
-                                <img class="work__thumb" src="https://i.ytimg.com/vi/iXFKUTpmspw/hqdefault.jpg" alt="" loading="lazy">
-                                <span class="work__play" aria-hidden="true">▶</span>
-                                <span class="work__yt-label">WATCH ON YOUTUBE</span>
-                            </a>
-                        </div>
-                        <span class="work__media-label">04</span>
-                    </div>
-                    <div class="work__caption">
-                        <p class="caption__row caption__row--title" data-text="PIZZA &amp; WINE Sisi brandmovie"><span>TITLE</span>PIZZA &amp; WINE Sisi brandmovie</p>
-                        <p class="caption__row"><span>FIELD</span>Brand Movie / Commercial Film</p>
-                        <p class="caption__row"><span>PROCESS</span>GENERATIVE AI / DIRECTION / EDITING / SOUND DESIGN</p>
-                        <p class="caption__row"><span>YEAR</span>2026</p>
-                    </div>
-                </article>
-
-                <article class="work work--land" data-cursor-text="VIEW">
-                    <div class="work__media" data-media="land-05">
-                        <div class="work__bg-panel work__bg-panel--red"></div>
-                        <div class="work__bg-panel work__bg-panel--blue"></div>
-                        <div class="work__media-inner work__media--youtube" data-youtube-id="WHz2i-ALI5c">
-                            <a class="work__yt-link" href="https://youtu.be/WHz2i-ALI5c" target="_blank" rel="noopener" aria-label="Watch 子供心 - Childlike Wonder - on YouTube" data-cursor-text="YOUTUBE">
-                                <img class="work__thumb" src="https://i.ytimg.com/vi/WHz2i-ALI5c/hqdefault.jpg" alt="" loading="lazy">
-                                <span class="work__play" aria-hidden="true">▶</span>
-                                <span class="work__yt-label">WATCH ON YOUTUBE</span>
-                            </a>
-                        </div>
-                        <span class="work__media-label">05</span>
-                    </div>
-                    <div class="work__caption">
-                        <p class="caption__row caption__row--title" data-text="子供心 - Childlike Wonder -"><span>TITLE</span>子供心 - Childlike Wonder -</p>
-                        <p class="caption__row"><span>FIELD</span>Generative Film / Motion Experiment</p>
-                        <p class="caption__row"><span>PROCESS</span>GENERATIVE AI / DIRECTION / EDITING / SOUND DESIGN</p>
-                        <p class="caption__row"><span>YEAR</span>2026</p>
-                    </div>
-                </article>
-
-                <article class="work work--land" data-cursor-text="VIEW">
-                    <div class="work__media work__media--wide" data-media="land-06">
-                        <div class="work__bg-panel work__bg-panel--red"></div>
-                        <div class="work__bg-panel work__bg-panel--blue"></div>
-                        <div class="work__media-inner work__media--video">
-                            <video controls preload="metadata" playsinline src="./images/works/land-06-kr2007-cm.mp4"></video>
-                        </div>
-                        <span class="work__media-label">06</span>
-                    </div>
-                    <div class="work__caption">
-                        <p class="caption__row caption__row--title" data-text="RIKU KR-2007 Headphone CM"><span>TITLE</span>RIKU KR-2007 Headphone CM</p>
-                        <p class="caption__row"><span>FIELD</span>Commercial Film / Product CM</p>
-                        <p class="caption__row"><span>PROCESS</span>GENERATIVE AI / DIRECTION / EDITING / SOUND DESIGN</p>
-                        <p class="caption__row"><span>YEAR</span>2026</p>
-                    </div>
-                </article>
-
-                <article class="work work--land" data-cursor-text="VIEW">
-                    <div class="work__media" data-media="land-07">
-                        <div class="work__bg-panel work__bg-panel--red"></div>
-                        <div class="work__bg-panel work__bg-panel--blue"></div>
-                        <div class="work__media-inner work__media--youtube" data-youtube-id="EbZXpaiilMc">
-                            <a class="work__yt-link" href="https://youtu.be/EbZXpaiilMc" target="_blank" rel="noopener" aria-label="Watch Birth on YouTube" data-cursor-text="YOUTUBE">
-                                <img class="work__thumb" src="https://i.ytimg.com/vi/EbZXpaiilMc/hqdefault.jpg" alt="" loading="lazy">
-                                <span class="work__play" aria-hidden="true">▶</span>
-                                <span class="work__yt-label">WATCH ON YOUTUBE</span>
-                            </a>
-                        </div>
-                        <span class="work__media-label">07</span>
-                    </div>
-                    <div class="work__caption">
-                        <p class="caption__row caption__row--title" data-text="Birth"><span>TITLE</span>Birth</p>
-                        <p class="caption__row"><span>FIELD</span>AI Film / Visual Experiment</p>
-                        <p class="caption__row"><span>PROCESS</span>GENERATIVE AI / DIRECTION / EDITING / SOUND DESIGN</p>
-                        <p class="caption__row"><span>YEAR</span>2026</p>
-                    </div>
-                </article>
-
-                <article class="work work--land" data-cursor-text="VIEW">
-                    <div class="work__media" data-media="land-08">
-                        <div class="work__bg-panel work__bg-panel--red"></div>
-                        <div class="work__bg-panel work__bg-panel--blue"></div>
-                        <div class="work__media-inner work__media--youtube" data-youtube-id="2jJj_KVZnqg">
-                            <a class="work__yt-link" href="https://youtu.be/2jJj_KVZnqg" target="_blank" rel="noopener" aria-label="Watch REPLY - 52Hz - on YouTube" data-cursor-text="YOUTUBE">
-                                <img class="work__thumb" src="./images/works/land-08-reply-52hz.png" alt="" loading="lazy">
-                                <span class="work__play" aria-hidden="true">▶</span>
-                                <span class="work__yt-label">WATCH ON YOUTUBE</span>
-                            </a>
-                        </div>
-                        <span class="work__media-label">08</span>
-                        <span class="work__status-badge">IN PRODUCTION</span>
-                    </div>
-                    <div class="work__caption">
-                        <p class="caption__row caption__row--title" data-text="REPLY - 52Hz -"><span>TITLE</span>REPLY - 52Hz -</p>
-                        <p class="caption__row"><span>FIELD</span>Short Film</p>
-                        <p class="caption__row"><span>PROCESS</span>GENERATIVE AI / DIRECTION / EDITING / SOUND DESIGN</p>
-                        <p class="caption__row"><span>STATUS</span>IN PRODUCTION</p>
-                        <p class="caption__row"><span>YEAR</span>2026</p>
-                    </div>
-                </article>
-
-                <article class="work work--land" data-cursor-text="VIEW">
-                    <div class="work__media" data-media="land-09">
-                        <div class="work__bg-panel work__bg-panel--red"></div>
-                        <div class="work__bg-panel work__bg-panel--blue"></div>
-                        <div class="work__media-inner work__media--youtube" data-youtube-id="oIZgPFNVmNA">
-                            <a class="work__yt-link" href="https://youtu.be/oIZgPFNVmNA" target="_blank" rel="noopener" aria-label="Watch MUSUBI - AI Fashion Film on YouTube" data-cursor-text="YOUTUBE">
-                                <img class="work__thumb" src="https://i.ytimg.com/vi/oIZgPFNVmNA/hqdefault.jpg" alt="" loading="lazy">
-                                <span class="work__play" aria-hidden="true">▶</span>
-                                <span class="work__yt-label">WATCH ON YOUTUBE</span>
-                            </a>
-                        </div>
-                        <span class="work__media-label">09</span>
-                    </div>
-                    <div class="work__caption">
-                        <p class="caption__row caption__row--title" data-text="MUSUBI - AI Fashion Film"><span>TITLE</span>MUSUBI - AI Fashion Film</p>
-                        <p class="caption__row"><span>FIELD</span>Movie</p>
-                        <p class="caption__row"><span>PROCESS</span>GENERATIVE AI / DIRECTION / EDITING / SOUND DESIGN</p>
-                        <p class="caption__row"><span>YEAR</span>2026</p>
-                    </div>
-                </article>
-
-            </div>
-        </section>
-
-        <!-- ================= TRANSITION ================= -->
-        <section id="transition" class="transition reveal">
-            <div class="transition__panel transition__panel--red" aria-hidden="true"></div>
-            <div class="transition__panel transition__panel--blue" aria-hidden="true"></div>
-            <div class="transition__beam" aria-hidden="true"></div>
-            <p class="transition__line">FROM GENERATED IMAGE</p>
-            <p class="transition__line transition__line--alt">TO PHYSICAL SPACE</p>
-        </section>
-
-        <!-- ================= KOBAYASHI RIKU WORKS ================= -->
-        <section id="riku-works" class="works works--riku">
-            <p class="section-index">04 / KOBAYASHI RIKU WORKS</p>
-            <h2 class="works__heading mask-heading">KOBAYASHI RIKU</h2>
-            <p class="works__sub">CG / MOTION / INSTALLATION</p>
-
-            <div class="works__list works__list--gallery">
-
-                <article class="work work--riku" data-cursor-text="VIEW">
-                    <div class="work__media" data-media="riku-05">
-                        <div class="work__beam" aria-hidden="true"></div>
-                        <div class="work__media-inner work__media--youtube" data-youtube-id="m9I633lOP4o">
-                            <a class="work__yt-link" href="https://youtu.be/m9I633lOP4o" target="_blank" rel="noopener" aria-label="Watch 未知の選択 - Choosing the Unknown on YouTube" data-cursor-text="YOUTUBE">
-                                <img class="work__thumb" src="https://i.ytimg.com/vi/m9I633lOP4o/hqdefault.jpg" alt="" loading="lazy">
-                                <span class="work__play" aria-hidden="true">▶</span>
-                                <span class="work__yt-label">WATCH ON YOUTUBE</span>
-                            </a>
-                        </div>
-                        <span class="work__media-label">01</span>
-                    </div>
-                    <div class="work__caption">
-                        <p class="caption__row caption__row--riku"><span>TITLE</span>未知の選択 - Choosing the Unknown</p>
-                        <p class="caption__row caption__row--riku"><span>FIELD</span>Interactive Installation / TouchDesigner / Projection</p>
-                        <p class="caption__row caption__row--riku"><span>PROCESS</span>DIRECTION / PLANNING / VISUAL / SOUND / INSTALLATION</p>
-                        <p class="caption__row caption__row--riku"><span>YEAR</span>2026</p>
-                    </div>
-                </article>
-
-                <article class="work work--riku" data-cursor-text="VIEW">
-                    <div class="work__media" data-media="riku-02">
-                        <div class="work__beam" aria-hidden="true"></div>
-                        <div class="work__media-inner work__media--youtube" data-youtube-id="S_p1n-Z3gBQ">
-                            <a class="work__yt-link" href="https://youtu.be/S_p1n-Z3gBQ" target="_blank" rel="noopener" aria-label="Watch 一方通好 on YouTube" data-cursor-text="YOUTUBE">
-                                <img class="work__thumb" src="https://i.ytimg.com/vi/S_p1n-Z3gBQ/hqdefault.jpg" alt="" loading="lazy">
-                                <span class="work__play" aria-hidden="true">▶</span>
-                                <span class="work__yt-label">WATCH ON YOUTUBE</span>
-                            </a>
-                        </div>
-                        <span class="work__media-label">02</span>
-                    </div>
-                    <div class="work__caption">
-                        <p class="caption__row caption__row--riku"><span>TITLE</span>一方通好</p>
-                        <p class="caption__row caption__row--riku"><span>FIELD</span>Music Video / 3DCG / Art Direction</p>
-                        <p class="caption__row caption__row--riku"><span>PROCESS</span>3DCG / TOUCHDESIGNER / PROJECTION / COMPOSITING</p>
-                        <p class="caption__row caption__row--riku"><span>YEAR</span>2026</p>
-                    </div>
-                </article>
-
-                <article class="work work--riku" data-cursor-text="VIEW">
-                    <div class="work__media" data-media="riku-03">
-                        <div class="work__beam" aria-hidden="true"></div>
-                        <div class="work__media-inner work__media--image">
-                            <img src="./images/works/riku-03-land-main-visual.png" alt="LAND Main Visual" loading="lazy">
-                        </div>
-                        <span class="work__media-label">03</span>
-                    </div>
-                    <div class="work__caption">
-                        <p class="caption__row caption__row--riku"><span>TITLE</span>LAND Main Visual</p>
-                        <p class="caption__row caption__row--riku"><span>FIELD</span>Projection / Visual</p>
-                        <p class="caption__row caption__row--riku"><span>PROCESS</span>PROJECTION / COMPOSITING</p>
-                        <p class="caption__row caption__row--riku"><span>YEAR</span>2026</p>
-                    </div>
-                </article>
-
-                <article class="work work--riku" data-cursor-text="VIEW">
-                    <div class="work__media" data-media="riku-04">
-                        <div class="work__beam" aria-hidden="true"></div>
-                        <div class="work__media-inner work__media--youtube" data-youtube-id="GQ8neUK025Q">
-                            <a class="work__yt-link" href="https://youtu.be/GQ8neUK025Q" target="_blank" rel="noopener" aria-label="Watch マグラジ！ ~ From YUYU to YOU music ~ on YouTube" data-cursor-text="YOUTUBE">
-                                <img class="work__thumb" src="https://i.ytimg.com/vi/GQ8neUK025Q/hqdefault.jpg" alt="" loading="lazy">
-                                <span class="work__play" aria-hidden="true">▶</span>
-                                <span class="work__yt-label">WATCH ON YOUTUBE</span>
-                            </a>
-                        </div>
-                        <span class="work__media-label">04</span>
-                    </div>
-                    <div class="work__caption">
-                        <p class="caption__row caption__row--riku"><span>TITLE</span>マグラジ！ ~ From YUYU to YOU music ~</p>
-                        <p class="caption__row caption__row--riku"><span>FIELD</span>internet radio / Public Relations</p>
-                        <p class="caption__row caption__row--riku"><span>PROCESS</span>DIRECTION / PLANNING / SCRIPT / HOST / EDITING</p>
-                        <p class="caption__row caption__row--riku"><span>YEAR</span>2025</p>
-                    </div>
-                </article>
-
-            </div>
-        </section>
-
-        <!-- ================= ABOUT ================= -->
-        <section id="about" class="about reveal">
-            <p class="section-index">05 / ABOUT</p>
-
-            <div class="about__row">
-                <div class="about__statement">
-                    <h2 class="about__name mask-heading"><span class="about__name-en">KOBAYASHI RIKU</span><span class="about__name-jp">小林 陸</span></h2>
-                    <p class="about__role">VISUAL ARTIST / CREATIVE DIRECTOR</p>
-
-                    <p class="about__text">
-                        映像、3DCG、グラフィック、生成AI、音、プロジェクション、空間演出を横断しながら、新しい視覚体験を制作している。
-                    </p>
-                    <p class="about__text">
-                        LANDは、生成AIを活用した映像とビジュアル表現のためのオルターエゴ。
-                    </p>
-                    <p class="about__text">
-                        KOBAYASHI RIKU名義では、3DCG、映像、TouchDesigner、プロジェクション、インスタレーション作品を制作している。
-                    </p>
-
-                    <div class="about__translation">
-                        <p class="about__text about__text--en">Working across film, 3DCG, graphic design, generative AI, sound, projection and spatial direction to create new visual experiences.</p>
-                        <p class="about__text about__text--en">LAND is an alter ego for film and visual expression built on generative AI.</p>
-                        <p class="about__text about__text--en">Under the name KOBAYASHI RIKU, he creates 3DCG, film, TouchDesigner, projection and installation works.</p>
+                    <div class="scroll-cue" aria-hidden="true">
+                        <span class="scroll-cue__text">SCROLL</span>
+                        <span class="scroll-cue__line"></span>
                     </div>
                 </div>
 
-                <div class="about__portrait">
-                    <img src="./images/works/riku-profile-icon.png" alt="KOBAYASHI RIKU" loading="lazy">
+                <div class="identity identity--riku" id="rikuIdentity">
+                    <h2 class="identity__title">
+                        <picture>
+                            <source srcset="./media/identity/riku-logo.webp" type="image/webp">
+                            <img class="identity__logo" src="./media/identity/riku-logo.png"
+                                width="1024" height="1536" alt="小林陸 — KOBAYASHI RIKU" decoding="async">
+                        </picture>
+                    </h2>
+                    <p class="identity__fields">CG / FILM / INSTALLATION</p>
+                </div>
+
+                <div class="folio folio--riku" aria-hidden="true">
+                    <span>KOBAYASHI RIKU</span>
+                    <span>WHITE — 01</span>
                 </div>
             </div>
 
-            <div class="marquee" aria-hidden="true">
-                <div class="marquee__track">
-                    <span>After Effects</span><span>Blender</span><span>Maya</span><span>Cinema 4D</span>
-                    <span>TouchDesigner</span><span>Photoshop</span><span>Premiere Pro</span><span>Runway</span>
-                    <span>Midjourney</span><span>Suno</span>
-                    <span>After Effects</span><span>Blender</span><span>Maya</span><span>Cinema 4D</span>
-                    <span>TouchDesigner</span><span>Photoshop</span><span>Premiere Pro</span><span>Runway</span>
-                    <span>Midjourney</span><span>Suno</span>
-                </div>
-            </div>
+            <!-- anchor lands where the logo is fully written -->
+            <span class="intro__anchor" id="riku" aria-hidden="true"></span>
         </section>
 
-        <!-- ================= CONTACT ================= -->
-        <section id="contact" class="contact reveal">
-            <p class="section-index">06 / EXIT</p>
+        <!-- ================= 03 / KOBAYASHI RIKU WORKS ================= -->
+        <section class="world world--white works-section" id="riku-works" data-tone="dark" aria-labelledby="rikuWorksTitle">
+            <header class="works-head">
+                <h2 class="works-head__title" id="rikuWorksTitle">KOBAYASHI RIKU <span aria-hidden="true">—</span> SELECTED WORKS</h2>
+                <p class="works-head__fields">CG / FILM / INSTALLATION</p>
+            </header>
 
-            <h2 class="contact__title mask-heading">EXIT THE KNOWN.<br>ENTER LAND.</h2>
+            <div class="works" data-works="riku"></div>
 
-            <div class="contact__links">
-                <a href="https://instagram.com/land_2992" target="_blank" rel="noopener" data-cursor-text="ENTER">
-                    <img src="./images/instagram.png" alt="Instagram">
-                    <span>@land_2992</span>
-                </a>
+            <noscript>
+                <ul class="works-fallback">
+                    <li><a href="https://youtu.be/m9I633lOP4o">未知の選択 - Choosing the Unknown -</a></li>
+                    <li><a href="https://youtu.be/S_p1n-Z3gBQ">一方通好</a></li>
+                    <li><a href="https://define-your-own-color.vercel.app/">OWN COLOR</a></li>
+                    <li><a href="https://youtu.be/GQ8neUK025Q">マグラジ！~ From YUYU to YOU music ~</a></li>
+                </ul>
+            </noscript>
+        </section>
 
-                <a href="https://x.com/land_2992" target="_blank" rel="noopener" data-cursor-text="ENTER">
-                    <img src="./images/x.png" alt="X">
-                    <span>@land_2992</span>
-                </a>
+        <!-- ================= ABOUT — KOBAYASHI RIKU ================= -->
+        <section class="profile profile--riku world--white" id="about" data-tone="dark" aria-labelledby="profileRiku">
+                <p class="profile__label"><span>ABOUT — KOBAYASHI RIKU</span><span>WHITE — 01</span></p>
+                <figure class="profile__photo">
+                    <picture>
+                        <source type="image/avif" srcset="./media/about/riku-profile-960.avif 960w, ./media/about/riku-profile-1600.avif 1600w" sizes="(min-width: 900px) 42vw, 92vw">
+                        <source type="image/webp" srcset="./media/about/riku-profile-960.webp 960w, ./media/about/riku-profile-1600.webp 1600w" sizes="(min-width: 900px) 42vw, 92vw">
+                        <img src="./media/about/riku-profile-960.webp" width="1600" height="1066" loading="lazy" decoding="async"
+                             alt="Portrait of KOBAYASHI RIKU, smiling, in black and white">
+                    </picture>
+                </figure>
+                <div class="profile__body">
+                <h2 class="profile__name" id="profileRiku"><span lang="ja">小林 陸</span><span class="profile__slash" aria-hidden="true"> / </span>KOBAYASHI RIKU</h2>
+                <p class="profile__fields">CG / FILM / INSTALLATION</p>
+                <p class="profile__ja" lang="ja">
+                    TECH.C.仙台 CGクリエーター専攻 2年。<br>
+                    仙台を拠点に、CG・映像・インスタレーションを中心とした作品を制作。<br>
+                    映像、音、空間など、異なる表現を組み合わせながら、スクリーンの枠を超えた体験の創出に取り組んでいる。<br>
+                    既存の表現手法にとらわれず、人々の感覚や感情を動かすクリエイティブを追求している。
+                </p>
+                <p class="profile__en" lang="en">
+                    Second-year student in the CG Creator program at TECH.C. Sendai.
+                    Based in Sendai, Japan, working across CGI, film, and interactive installations.
+                    Combining moving images, sound, and space to create experiences that extend beyond the screen.
+                    Exploring creative possibilities beyond conventional techniques, with the aim of making work that moves people both emotionally and sensorially.
+                </p>
+                    <dl class="profile__tools">
+                        <dt>TOOLS</dt>
+                        <dd>
+                            <ul>
+                                <li>Blender</li>
+                                <li>TouchDesigner</li>
+                                <li>Photoshop</li>
+                                <li>Illustrator</li>
+                                <li>After Effects</li>
+                                <li>Premiere Pro</li>
+                            </ul>
+                        </dd>
+                    </dl>
+                    <ul class="profile__links" aria-label="KOBAYASHI RIKU on social media">
+                        <li><a href="https://www.instagram.com/kobariku_2992?lqvp=Zjg1YzlvNGkzd21m&amp;utm_source=qr" target="_blank" rel="noopener">INSTAGRAM<span aria-hidden="true"> ↗</span><span class="u-visually-hidden"> (opens in a new tab)</span></a></li>
+                    </ul>
+                </div>
+            </section>
 
-                <a href="https://youtube.com/@land2992" target="_blank" rel="noopener" data-cursor-text="ENTER">
-                    <img src="./images/youtube.png" alt="YouTube">
-                    <span>@land2992</span>
-                </a>
+        <!-- =========================================================
+             04 / WHITE → BLACK   05 / LAND IDENTITY
+             Sticky stage: black rises from below, then the LAND logo is written in.
+             ========================================================= -->
+        <section class="passage" id="landPassage" aria-label="LAND">
+            <div class="passage__stage">
+                <div class="passage__void" aria-hidden="true"></div>
 
-                <a href="mailto:rikukoba2992@gmail.com" class="contact__email" data-cursor-text="ENTER">
-                    <span>EMAIL</span>
-                    <span>rikukoba2992@gmail.com</span>
-                </a>
+                <div class="identity identity--land">
+                    <h2 class="identity__title">
+                        <picture>
+                            <source srcset="./media/identity/land-logo.webp" type="image/webp">
+                            <img class="identity__logo" src="./media/identity/land-logo.png"
+                                width="1024" height="1536" alt="LAND" decoding="async" loading="lazy">
+                        </picture>
+                    </h2>
+                    <p class="identity__fields">GENERATIVE AI / FILM / VISUAL ART</p>
+                </div>
+
+                <div class="folio folio--land" aria-hidden="true">
+                    <span>LAND</span>
+                    <span>BLACK — 02</span>
+                </div>
             </div>
 
-            <p class="contact__foot">LAND © 2026 — SENDAI, JAPAN</p>
+            <!-- anchor lands where the LAND logo is fully written -->
+            <span class="passage__anchor" id="land" aria-hidden="true"></span>
+        </section>
+
+        <!-- ================= 06 / LAND WORKS ================= -->
+        <section class="world world--black works-section" id="land-works" data-tone="light" aria-labelledby="landWorksTitle">
+            <header class="works-head">
+                <h2 class="works-head__title" id="landWorksTitle">LAND <span aria-hidden="true">—</span> SELECTED WORKS</h2>
+                <p class="works-head__fields">GENERATIVE AI / FILM / VISUAL ART</p>
+            </header>
+
+            <div class="works" data-works="land"></div>
+
+            <noscript>
+                <ul class="works-fallback">
+                    <li><a href="https://youtu.be/EbZXpaiilMc">Birth</a></li>
+                    <li><a href="https://youtu.be/bprNqIEZ3tY">JAUNT — THE WORLD'S SMALLEST HEADLINER</a></li>
+                    <li><a href="./media/works/land/52hz-ni-mo-shiten-wo.mp4">52Hzにも、視点を</a></li>
+                    <li><a href="https://youtube.com/shorts/oIZgPFNVmNA">MUSUBI</a></li>
+                    <li><a href="https://youtu.be/iXFKUTpmspw">Pizza &amp; Wine Sisi</a></li>
+                    <li><a href="https://youtu.be/2jJj_KVZnqg">REPLY - 52Hz -</a></li>
+                    <li><a href="https://youtu.be/OBDtsSECBdA">FUJISAKI</a></li>
+                    <li><a href="https://youtu.be/JzRH3H7gJto">令和・東海道五十三次 ― 一歩も動かぬ男 ―</a></li>
+                    <li>sumika「透明」Artwork</li>
+                    <li>SUPER BEAVER「ひとつ」Artwork</li>
+                    <li>Mr.Children「innocent world」Artwork</li>
+                    <li><a href="https://youtu.be/bJ3jQZ8bTVo">キンモクセイ MV</a></li>
+                    <li><a href="https://youtube.com/shorts/ufdI_TYrsR8">Aesop CM</a></li>
+                </ul>
+            </noscript>
+        </section>
+
+        <!-- ================= ABOUT — LAND ================= -->
+        <section class="profile profile--land world--black" id="about-land" data-tone="light" aria-labelledby="profileLand">
+                <p class="profile__label"><span>ABOUT — LAND</span><span>BLACK — 02</span></p>
+                <figure class="profile__photo">
+                    <picture>
+                        <source type="image/avif" srcset="./media/about/land-profile-960.avif 960w, ./media/about/land-profile-1600.avif 1600w" sizes="(min-width: 900px) 42vw, 92vw">
+                        <source type="image/webp" srcset="./media/about/land-profile-960.webp 960w, ./media/about/land-profile-1600.webp 1600w" sizes="(min-width: 900px) 42vw, 92vw">
+                        <img src="./media/about/land-profile-960.webp" width="1600" height="900" loading="lazy" decoding="async"
+                             alt="LAND poster: a figure in white sunglasses shouting in front of a large red LAND logotype">
+                    </picture>
+                </figure>
+                <div class="profile__body">
+                <h2 class="profile__name" id="profileLand">LAND</h2>
+                <p class="profile__fields">GENERATIVE AI / FILM / VISUAL ART</p>
+                <p class="profile__ja" lang="ja">
+                    小林 陸の中に存在する、もうひとつの創造的人格。<br>
+                    生成AIを表現の手段として、映像、MV、アートワークなど、ジャンルを横断した作品を制作。<br>
+                    AIを単なる制作ツールではなく、想像力を拡張するための新たな表現手法として捉えている。<br>
+                    現実と非現実の境界を行き来しながら、まだ見たことのないビジュアルと、その先に生まれる感情を探求している。
+                </p>
+                <p class="profile__en" lang="en">
+                    LAND is an alternate creative persona of Riku Kobayashi.
+                    Working across film, music videos, and visual art, using generative AI as a means of creative expression.
+                    Rather than treating AI simply as a production tool, LAND explores it as a new medium for expanding the imagination.
+                    Moving between reality and the surreal, LAND seeks to create unseen visuals and evoke emotions beyond the familiar.
+                </p>
+                    <dl class="profile__tools">
+                        <dt>TOOLS</dt>
+                        <dd>
+                            <ul>
+                                <li>Runway</li>
+                                <li>Midjourney</li>
+                                <li>Suno</li>
+                            </ul>
+                        </dd>
+                    </dl>
+                    <ul class="profile__links" aria-label="LAND on social media">
+                        <li><a href="https://x.com/land_2992?s=11" target="_blank" rel="noopener">X<span aria-hidden="true"> ↗</span><span class="u-visually-hidden"> (opens in a new tab)</span></a></li>
+                        <li><a href="https://www.instagram.com/land_2992?dlrf=MWVzdTQyMno1OGhqcQ%3D%3D&amp;utm_source=qr" target="_blank" rel="noopener">INSTAGRAM<span aria-hidden="true"> ↗</span><span class="u-visually-hidden"> (opens in a new tab)</span></a></li>
+                    </ul>
+                </div>
+            </section>
+
+        <section class="world world--black contact" id="contact" data-tone="light" aria-labelledby="contactTitle">
+            <h2 class="contact__label" id="contactTitle">CONTACT</h2>
+            <a class="contact__mail" href="mailto:rikukoba2992@gmail.com">rikukoba2992@gmail.com<span class="contact__arrow" aria-hidden="true"> ↗</span></a>
+
+            <dl class="contact__social">
+                <div>
+                    <dt>KOBAYASHI RIKU</dt>
+                    <dd><a href="https://www.instagram.com/kobariku_2992?lqvp=Zjg1YzlvNGkzd21m&amp;utm_source=qr" target="_blank" rel="noopener">INSTAGRAM<span aria-hidden="true"> ↗</span><span class="u-visually-hidden"> (opens in a new tab)</span></a></dd>
+                </div>
+                <div>
+                    <dt>LAND</dt>
+                    <dd>
+                        <a href="https://x.com/land_2992?s=11" target="_blank" rel="noopener">X<span aria-hidden="true"> ↗</span><span class="u-visually-hidden"> (opens in a new tab)</span></a>
+                        <a href="https://www.instagram.com/land_2992?dlrf=MWVzdTQyMno1OGhqcQ%3D%3D&amp;utm_source=qr" target="_blank" rel="noopener">INSTAGRAM<span aria-hidden="true"> ↗</span><span class="u-visually-hidden"> (opens in a new tab)</span></a>
+                    </dd>
+                </div>
+            </dl>
+
+            <footer class="site-footer">
+                <span>KOBAYASHI RIKU <span aria-hidden="true">×</span> LAND</span>
+                <a class="site-footer__top" href="#top">BACK TO TOP <span aria-hidden="true">↑</span></a>
+                <span>© 2026</span>
+            </footer>
         </section>
 
     </main>
 
-    <script src="./script.js"></script>
+    <!-- in-site viewer: artworks (lightbox) + local films -->
+    <dialog class="viewer" id="viewer" aria-labelledby="viewerTitle">
+        <div class="viewer__bar">
+            <p class="viewer__title" id="viewerTitle"></p>
+            <p class="viewer__count" aria-live="polite"></p>
+            <button class="viewer__close" type="button" data-viewer-close>CLOSE</button>
+        </div>
+        <div class="viewer__stage"></div>
+        <div class="viewer__nav">
+            <button class="viewer__prev" type="button" data-viewer-step="-1" aria-label="Previous image">PREV</button>
+            <button class="viewer__next" type="button" data-viewer-step="1" aria-label="Next image">NEXT</button>
+        </div>
+    </dialog>
+
+    <script src="./js/data/works.js" defer></script>
+    <script src="./js/start.js" defer></script>
+    <script src="./js/works.js" defer></script>
+    <script src="./js/main.js" defer></script>
 </body>
 </html>
