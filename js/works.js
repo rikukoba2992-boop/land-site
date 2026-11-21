@@ -16,9 +16,6 @@
 
     const WORKS = window.WORKS || [];
 
-    /* unverified credits are hidden unless the page is opened with ?dev */
-    const showUnverified = new URLSearchParams(location.search).has("dev");
-
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const saveData = !!(navigator.connection && navigator.connection.saveData);
     const useLoops = !reduceMotion && !saveData;
@@ -46,6 +43,8 @@
 
     const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;" }[c]));
     const pad = n => String(n).padStart(2, "0");
+    /* Japanese titles get lang="ja" so they break between phrases, not mid-word */
+    const titleLang = work => /[぀-ヿ一-鿿]/.test(work.title) ? ' lang="ja"' : "";
     const byId = Object.fromEntries(WORKS.map(w => [w.id, w]));
 
     /* file sizes are named by width, or by long edge when im.edge === "long" */
@@ -66,33 +65,60 @@
         </picture>`;
     }
 
-    function credits(work){
-        const list = (work.credits || []).filter(c => c.verified || showUnverified);
-        if(!list.length) return "";
-        return `<ul class="work__credits">${list.map(c => `
-            <li${c.verified ? "" : ' class="is-unverified"'}>
-                <span class="work__credit-label">${esc(c.label)}</span>
-                <span class="work__credit-name">${esc(c.name)}</span>
-                ${c.verified ? "" : '<span class="work__flag">UNCONFIRMED</span>'}
-            </li>`).join("")}
-        </ul>`;
+    /* TYPE sits under the title (the existing meta line) */
+    function meta(work){
+        return work.type ? `<p class="work__meta">${esc(work.type)}</p>` : "";
     }
 
-    function meta(work){
-        const bits = [work.category, work.year, work.duration].filter(Boolean);
-        return bits.length ? `<p class="work__meta">${bits.map(esc).join('<span aria-hidden="true"> / </span>')}</p>` : "";
+    /* work facts — English labels; empty fields are skipped, never shown as placeholders */
+    function specs(work){
+        const rows = [];
+        const row = (label, html) => rows.push(`<div class="work__spec"><dt>${label}</dt><dd>${html}</dd></div>`);
+        if(work.duration) row("DURATION", esc(work.duration));
+        if(work.production) row("PRODUCTION", esc(work.production));
+        if(work.productionTime) row("PRODUCTION TIME", esc(work.productionTime));
+        if(work.role || work.detailedRole){
+            row("ROLE", [work.role && `<span>${esc(work.role)}</span>`,
+                         work.detailedRole && `<span class="work__spec-sub">${esc(work.detailedRole)}</span>`]
+                        .filter(Boolean).join(""));
+        }
+        if(work.tools && work.tools.length) row("TOOLS", work.tools.map(esc).join('<span class="work__sep" aria-hidden="true"> / </span>'));
+        if(work.music) row("MUSIC", esc(work.music));
+        if(work.featured) row("FEATURED BAND", esc(work.featured));
+        (work.facts || []).forEach(f => {
+            if(f.items && f.items.length) row(esc(f.label), f.items.map(i => `<span class="work__spec-line">${esc(i)}</span>`).join(""));
+        });
+        return rows.length ? `<dl class="work__specs">${rows.join("")}</dl>` : "";
     }
+
+    /* OVERVIEW — Japanese first, English below */
+    function overview(work){
+        const ja = work.overviewJa || [], en = work.overviewEn || [];
+        if(!ja.length && !en.length) return "";
+        return `<div class="work__overview">
+            <p class="work__overview-label">OVERVIEW</p>
+            ${ja.length ? `<div class="work__overview-ja" lang="ja">${ja.map(p => `<p>${esc(p)}</p>`).join("")}</div>` : ""}
+            ${en.length ? `<div class="work__overview-en" lang="en">${en.map(p => `<p>${esc(p)}</p>`).join("")}</div>` : ""}
+        </div>`;
+    }
+
+    function info(work){
+        const body = overview(work) + specs(work);
+        return body ? `<div class="work__info">${body}</div>` : "";
+    }
+
+    const label = work => work.linkLabel || (CTA[work.linkType] || {}).text || "";
 
     function cta(work){
         const c = CTA[work.linkType];
         if(!c) return "";
         if(c.ext && work.externalUrl){
             return `<a class="work__cta" href="${esc(work.externalUrl)}" target="_blank" rel="noopener">
-                ${c.text}<span class="work__arrow" aria-hidden="true"> ↗</span>
+                ${esc(label(work))}<span class="work__arrow" aria-hidden="true"> ↗</span>
                 <span class="u-visually-hidden">: ${esc(work.title)} (opens in a new tab)</span></a>`;
         }
         return `<button class="work__cta" type="button" data-open="${esc(work.id)}" aria-haspopup="dialog">
-                ${c.text}<span class="u-visually-hidden">: ${esc(work.title)}</span></button>`;
+                ${esc(label(work))}<span class="u-visually-hidden">: ${esc(work.title)}</span></button>`;
     }
 
     /* silent loop layered over the still; src is attached only when it scrolls into view */
@@ -109,13 +135,13 @@
         const inner = picture(work.mainImage, sizes) + loopVideo(work);
         if(c && c.ext && work.externalUrl){
             return `<a class="work__hero" href="${esc(work.externalUrl)}" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true">${inner}
-                <span class="work__hover" aria-hidden="true">${c.text} ↗</span></a>`;
+                <span class="work__hover" aria-hidden="true">${esc(label(work))} ↗</span></a>`;
         }
         if(c && !c.ext){
             const play = work.linkType === "video"
-                ? `<span class="work__play" aria-hidden="true"><span class="work__play-icon"></span>${c.text}</span>` : "";
+                ? `<span class="work__play" aria-hidden="true"><span class="work__play-icon"></span>${esc(label(work))}</span>` : "";
             return `<div class="work__hero is-button" data-open="${esc(work.id)}" aria-hidden="true">${inner}${play}
-                <span class="work__hover" aria-hidden="true">${c.text}</span></div>`;
+                <span class="work__hover" aria-hidden="true">${esc(label(work))}</span></div>`;
         }
         return `<div class="work__hero">${inner}</div>`;
     }
@@ -124,13 +150,11 @@
         return `<div class="work__text">
             <p class="work__index"><span>${pad(n)}</span><span class="work__of"> / ${pad(total)}</span></p>
             <div class="work__heading">
-                <h3 class="work__title">${esc(work.title)}</h3>
+                <h3 class="work__title"${titleLang(work)}>${esc(work.title)}</h3>
                 ${work.subtitle ? `<p class="work__subtitle">${esc(work.subtitle)}</p>` : ""}
                 ${meta(work)}
             </div>
             <div class="work__side">
-                ${work.description ? `<p class="work__desc">${esc(work.description)}</p>` : ""}
-                ${credits(work)}
                 ${cta(work)}
             </div>
         </div>`;
@@ -159,6 +183,7 @@
         return `<article class="work work--${layout}${mirror ? " work--mirror" : ""}" id="work-${esc(work.id)}">
             ${hero(work, SIZES[layout] || SIZES.editorial)}
             ${text(work, n, total)}
+            ${info(work)}
             ${plates(work, layout)}
         </article>`;
     }
@@ -171,9 +196,9 @@
                 ${hero(work, SIZES.artwork)}
                 <div class="work__text">
                     <p class="work__index"><span>${pad(startN + i)}</span><span class="work__of"> / ${pad(total)}</span></p>
-                    <h3 class="work__title">${esc(work.title)}</h3>
+                    <h3 class="work__title"${titleLang(work)}>${esc(work.title)}</h3>
                     ${meta(work)}
-                    ${credits(work)}
+                    ${specs(work)}
                     ${cta(work)}
                 </div>
             </article>`).join("")}
@@ -342,7 +367,7 @@
     /* -----------------------------------------------------------
        REVEAL — heroes open like a curtain, the rest fades / rises
     ----------------------------------------------------------- */
-    const targets = document.querySelectorAll(".work__hero, .work__text, .work__plate, .work__frame, .profile");
+    const targets = document.querySelectorAll(".work__hero, .work__text, .work__info, .work__plate, .work__frame, .profile");
     document.documentElement.classList.add("has-reveal");
     const io = new IntersectionObserver(entries => {
         entries.forEach(e => {
